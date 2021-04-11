@@ -21,10 +21,10 @@ class AccountsController < ApplicationController
 
   # POST /accounts
   def create
-    @account = Account.new(account_params)
+    @account = AuditedAccount.new
 
-    if @account.save
-      redirect_to @account, notice: 'Account was successfully created.'
+    if @account.create(account_params)
+      redirect_to @account.account, notice: 'Account was successfully created.'
     else
       render :new
     end
@@ -32,10 +32,10 @@ class AccountsController < ApplicationController
 
   # PATCH/PUT /accounts/1
   def update
-    @account = Account.find(params[:id])
+    @account = AuditedAccount.new(Account.find(params[:id]))
 
     if @account.update(account_params)
-      redirect_to @account, notice: 'Account was successfully updated.'
+      redirect_to @account.account, notice: 'Account was successfully updated.'
     else
       render :edit
     end
@@ -43,8 +43,7 @@ class AccountsController < ApplicationController
 
   # DELETE /accounts/1
   def destroy
-    @account = Account.find(params[:id])
-    @account.destroy
+    AuditedAccount.new(Account.find(params[:id])).destroy
     redirect_to accounts_url, notice: 'Account was successfully destroyed.'
   end
 

@@ -16,7 +16,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts/1/edit
   def edit
-    @account = Account.find(params[:id])
+    @account = AuditedAccount.new(Account.find(params[:id]))
   end
 
   # POST /accounts
@@ -24,7 +24,7 @@ class AccountsController < ApplicationController
     @account = AuditedAccount.new
 
     if @account.create(account_params)
-      redirect_to @account.account, notice: 'Account was successfully created.'
+      redirect_to @account, notice: 'Account was successfully created.'
     else
       render :new
     end
@@ -35,7 +35,7 @@ class AccountsController < ApplicationController
     @account = AuditedAccount.new(Account.find(params[:id]))
 
     if @account.update(account_params)
-      redirect_to @account.account, notice: 'Account was successfully updated.'
+      redirect_to @account, notice: 'Account was successfully updated.'
     else
       render :edit
     end

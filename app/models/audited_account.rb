@@ -1,8 +1,17 @@
 class AuditedAccount
-  attr_reader :account
+  include ActiveModel::Model
+
+  delegate :persisted?, :id, to: :account
+
+  attr_reader :account, :name
 
   def initialize(account = Account.new)
     @account = account
+    @name = account.name
+  end
+
+  def self.model_name
+    Account.model_name
   end
 
   def update(params)
